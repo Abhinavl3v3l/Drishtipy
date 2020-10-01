@@ -147,4 +147,7 @@ cifar-10-batches-py/
 *.csv
 *.gz
 *.tar
+
+
+#Pycharm
 .idea
