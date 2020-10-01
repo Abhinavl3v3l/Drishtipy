@@ -1,0 +1,38 @@
+Dividing learning process
+
+1. dataset and dataloader
+    0. Requirements
+        - batchsize
+        - device = cuda
+        - augmentation strategies to apply to dataset
+        - workers
+        - pins
+    1. Input and Output
+        Input - Images for train and test
+        output  - dataloader for train and test
+    2. Input and Output Format.
+        - Input  : ?
+        - Output : ?
+
+2. Model Architecture
+    1. Resnet
+
+n-1.
+    - Learning Rate
+
+
+n. Test and Training
+    0. Requirements
+        - train loader
+        - test loader
+        - optimiser
+        - scheduler
+        - LR
+        -
+
+GradCam
+Mis-classification
+Visualization -
+    - Image Plots
+    - Test and train acc plot
+    - learning rate plot
