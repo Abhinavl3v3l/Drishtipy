@@ -24,7 +24,7 @@ def get_data_transform(path):
     mean, stdev = find_stats(path)
     input_size = 32
     train_albumentation_transform = A.Compose([
-        A.Cutout(num_holes=3, max_h_size=8, max_w_size=8, fill_value=[i * 255 for i in mean], always_apply=True, p=0.5),
+        A.Cutout(num_holes=4),
         # A.RandomCrop(height=8,width=8,p=0.020,always_apply=False),
         A.HorizontalFlip(p=0.7, always_apply=True),
         A.ShiftScaleRotate(shift_limit=0.0625, scale_limit=0, rotate_limit=45, p=0.2),

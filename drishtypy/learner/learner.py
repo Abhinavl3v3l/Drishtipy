@@ -87,9 +87,7 @@ def build_model(model, device, trainloader, testloader, epochs, L1_loss_flag=Fal
     optimizer = optim.SGD(model.parameters(), lr=0.21, momentum=0.9, nesterov=True, weight_decay=L2_penalty_val)
     #     scheduler = StepLR(optimizer, step_size=8, gamma=0.1)
     # scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=0.29150530628251764, steps_per_epoch=len(trainloader), epochs=epochs)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=2,
-                                                           threshold=0.00001, threshold_mode='rel', cooldown=0,
-                                                           min_lr=1e-15, eps=1e-08, verbose=False)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.01, patience=2)
 
     train_losses = []
     test_losses = []
