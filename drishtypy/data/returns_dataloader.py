@@ -1,6 +1,6 @@
 import torch
-from src.data.does_augmentation import get_data_transform
-from src.data.get_dataset import get_dataset
+from drishtypy.data.does_augmentation import get_data_transform
+from drishtypy.data.get_dataset import get_dataset
 
 
 def get_dataloader(batch_size, num_workers, cuda, path):

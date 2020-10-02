@@ -2,7 +2,7 @@ import albumentations as A
 from torchvision import transforms
 from albumentations.pytorch import ToTensor
 
-from src.data.data_utils import find_stats
+from drishtypy.data.data_utils import find_stats
 
 '''
 # A.Resize(input_size,input_size),

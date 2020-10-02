@@ -21,7 +21,7 @@ class Parameters:
 def parser():
     parser = configparser.ConfigParser()
     path = ''
-    print(parser.read('src/config.ini'))
+    print(parser.read('drishtypy/config.ini'))
     print(parser.sections())
 
 

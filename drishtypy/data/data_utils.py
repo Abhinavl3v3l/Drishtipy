@@ -1,7 +1,7 @@
 from torchvision import transforms
-import src.data.get_dataset
+import drishtypy.data.get_dataset
 import albumentations as A
-from src.data.get_dataset import get_dataset
+from drishtypy.data.get_dataset import get_dataset
 import numpy as np
 
 

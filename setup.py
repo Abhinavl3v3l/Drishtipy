@@ -14,7 +14,7 @@ setuptools.setup(
     description="Small package to increase modularity for TSAI: EVA",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Abhinavl3v3l/Drishtipy",
+    url="https://github.com/Abhinavl3v3l/Drishtypy",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
