@@ -3,12 +3,12 @@ import setuptools
 with open('README.md', 'r') as fh:
     long_description = fh.read()
 
-with open('requirements.txt', 'r') as fh:
+with open('requirements', 'r') as fh:
     required = fh.read().splitlines()
 
 setuptools.setup(
-    name="chashmey",  # Replace with your own username
-    version="0.01",
+    name="drishtypy",  # Replace with your own username
+    version="0.0.3",
     author="Abhinav Rana",
     author_email="rabhinavcs@gmail.com",
     description="Small package to increase modularity for TSAI: EVA",

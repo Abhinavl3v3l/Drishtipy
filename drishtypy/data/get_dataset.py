@@ -16,3 +16,4 @@ def get_dataset(train_transforms, test_transforms, path):
     """
     trainset = datasets.CIFAR10(path, train=True, download=True, transform=train_transforms)
     testset = datasets.CIFAR10(path, train=False, download=True, transform=test_transforms)
+    return trainset, testset

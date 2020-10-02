@@ -1,9 +1,8 @@
 import albumentations as A
 from torchvision import transforms
-from albumentations.pytorch import ToTensor
-
+import numpy as np
 from drishtypy.data.data_utils import find_stats
-
+from albumentations.pytorch import ToTensor
 '''
 # A.Resize(input_size,input_size),
 # A.CoarseDropout(max_holes=1,max_height=16,max_width=16,min_holes=None,min_height=4,min_width=4,fill_value=[i*255 for i in mean],always_apply=True,p=0.7,),
@@ -20,6 +19,7 @@ class AlbumCompose():
         img = self.transform(image=img)['image']
         return img
 
+
 def get_data_transform(path):
     mean, stdev = find_stats(path)
     input_size = 32
@@ -28,7 +28,7 @@ def get_data_transform(path):
         # A.RandomCrop(height=8,width=8,p=0.020,always_apply=False),
         A.HorizontalFlip(p=0.7, always_apply=True),
         A.ShiftScaleRotate(shift_limit=0.0625, scale_limit=0, rotate_limit=45, p=0.2),
-        A.Normalize(mean=tuple(mean), std=tuple(stdev), max_pixel_value=255, always_apply=True, p=1.0), A.ToTensor()])
+        A.Normalize(mean=tuple(mean), std=tuple(stdev), max_pixel_value=255, always_apply=True, p=1.0), ToTensor()])
 
     train_transforms = AlbumCompose(train_albumentation_transform)
 
@@ -37,6 +37,5 @@ def get_data_transform(path):
         transforms.ToTensor(),
         transforms.Normalize(tuple(mean), tuple(stdev))
     ])
-
 
     return train_transforms, test_transforms
