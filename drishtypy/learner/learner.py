@@ -1,11 +1,13 @@
+import math
 import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.optim.lr_scheduler import StepLR
-from torchsummary import summary
 import numpy as np
 from tqdm import tqdm
+import torch.nn as nn
+import torch.optim as optim
+from torchsummary import summary
+from torch.optim.lr_scheduler import StepLR
 import drishtypy.learner.regularization as regularization
+from torch_lr_finder import LRFinder
 
 
 def train(model, device, train_loader, optimizer, criterion, L1_loss_enable=False):
@@ -81,10 +83,12 @@ def test(model, device, test_loader, criterion, L1_loss_enable=False):
 # training the model epoc wise
 def build_model(model, device, trainloader, testloader, epochs, L1_loss_flag=False, L2_penalty_val=0):
     #     criterion = nn.BCELoss()
+    # criterion = nn.CrossEntropyLoss()
     criterion = nn.CrossEntropyLoss()
-
     # optimizer = optim.SGD(model.parameters(), lr=0.001, momentum=0.9)
-    optimizer = optim.SGD(model.parameters(), lr=0.03, momentum=0.95, nesterov=True, weight_decay=L2_penalty_val)
+    lr = get_lr(model, trainloader, device="cuda")
+    optimizer = optim.SGD(model.parameters(), lr=lr, momentum=0.95, nesterov=True, weight_decay=L2_penalty_val)
+
     #     scheduler = StepLR(optimizer, step_size=8, gamma=0.1)
     # scheduler = torch.optim.lr_scheduler.OneCycleLR(optimizer, max_lr=0.29150530628251764, steps_per_epoch=len(trainloader), epochs=epochs)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', verbose=True)
@@ -97,8 +101,8 @@ def build_model(model, device, trainloader, testloader, epochs, L1_loss_flag=Fal
     for epoch in range(epochs):
         print("EPOCH:", epoch)
         acc, loss = train(model, device, trainloader, optimizer, criterion, L1_loss_flag)
-        #         get_lr = scheduler.get_lr()
-        #         print('LR:', get_lr)
+        # get_lr = scheduler.get_lr()
+        # print('LR:', lr)
         train_acc.append(acc)
         train_losses.append(loss)
 
@@ -171,3 +175,35 @@ def class_based_accuracy(model, device, classes, testloader):
         print('Accuracy of %5s : %2d %%' % (
             classes[i], 100 * class_correct[i] / class_total[i]))
     return
+
+def get_lr(model,  train_loader,device="cuda"):
+    criterion = nn.CrossEntropyLoss()
+    optimizer = optim.SGD(model.parameters(), lr=0.0000000001, momentum=0.95, nesterov=True)
+    lr_finder = LRFinder(model, optimizer, criterion, device="cuda")
+    lr_finder.range_test(train_loader, end_lr=10, num_iter=100, step_mode="exp")
+    lr_finder.plot()
+    loss = lr_finder.history['loss']
+    lr = lr_finder.history['lr']
+    lr = lr[loss.index(min(loss))]
+    # print('Using Learning Rate : ', lr)
+    lr_finder.reset()
+
+    for index in range(len(lr_finder.history['loss'])):
+        item = lr_finder.history['loss'][index]
+        if item == lr_finder.best_loss:
+            min_val_index = index
+    #     print(f"{min_val_index}") # Comments if Verbos
+    # lr_finder.plot(show_lr=lr_finder.history['lr'][75])
+    # lr_finder.plot(show_lr=lr_finder.history['lr'][min_val_index])
+
+
+    val_index = 75
+    mid_val_index = math.floor((val_index + min_val_index) / 2)
+    # show_lr=[{'data': lr_finder.history['lr'][val_index], 'linestyle': 'dashed'}, {'data': lr_finder.history['lr'][mid_val_index], 'linestyle': 'solid'}, {'data': lr_finder.history['lr'][min_val_index], 'linestyle': 'dashed'}]
+    # print(show_lr)
+    # IF verbose
+
+    best_lr = lr_finder.history['lr'][mid_val_index]
+    print(f"LR to be used: {best_lr}")
+
+    return best_lr

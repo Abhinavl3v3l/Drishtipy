@@ -1,3 +1,6 @@
+import os
+print(os.getcwd())
+
 import torch
 import matplotlib.pyplot as plt
 import numpy as np
@@ -123,7 +126,7 @@ class GradCamAbs():
             self.imshow(imgs[2])
             cnt += 1
 
-        fig.savefig("model_log/" + save_filename + ".png")
+        fig.savefig("../../Output" + save_filename + ".png")
         return
 
     def plot_cam_images(self, images_set, predictions, classesname, save_filename="gradcam_result"):
@@ -143,7 +146,7 @@ class GradCamAbs():
             if (cnt >= 5 * nrow):
                 break
 
-        fig.savefig("/model_log/{}.png".format(save_filename))
+        fig.savefig("../../Output/{}.png".format(save_filename))
         return
 
     # functions to show an image
@@ -153,3 +156,4 @@ class GradCamAbs():
         # convert from CHW to HWC
         # from 3x32x32 to 32x32x3
         plt.imshow(np.transpose(npimg, (1, 2, 0)))
+
