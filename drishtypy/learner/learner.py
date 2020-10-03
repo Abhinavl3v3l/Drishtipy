@@ -7,8 +7,8 @@ import torch.optim as optim
 from torchsummary import summary
 from torch.optim.lr_scheduler import StepLR
 import drishtypy.learner.regularization as regularization
-from torch_lr_finder import LRFinder
-
+# from torch_lr_finder import LRFinder
+from drishtypy.utils.lr_finder.lr_finder import LRFinder
 
 def train(model, device, train_loader, optimizer, criterion, L1_loss_enable=False):
     model.train()

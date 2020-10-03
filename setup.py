@@ -8,7 +8,7 @@ with open('requirements', 'r') as fh:
 
 setuptools.setup(
     name="drishtypy",  # Replace with your own username
-    version="0.0.6.20",
+    version="0.0.6.26",
     author="Abhinav Rana",
     author_email="rabhinavcs@gmail.com",
     description="Small package to increase modularity for TSAI: EVA",
